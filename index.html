@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Robux</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎲 Your Robux</h1>
+  <input type="number" id="robuxInput" placeholder="Robux..." />
+  <button onclick="playGame()">Try</button>
+  <p id="result"></p>
+
+  <script>
+    function playGame() {
+      const input = document.getElementById('robuxInput').value;
+      const robux = parseInt(input);
+      const result = document.getElementById('result');
+
+      if (isNaN(robux) || robux <= 0) {
+        result.textContent = "Error.";
+        return;
+      }
+
+      const outcome = Math.random() < 0.5;
+      if (outcome) {
+        result.textContent = `🎉 Duping Robux: ${robux * 2}`;
+      } else {
+        result.textContent = "😱 Oh no.";
+      }
+    }
+  </script>
+</body>
+</html>
