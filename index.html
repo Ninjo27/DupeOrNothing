@@ -1,44 +1,116 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Robux</title>
+  <title>Robux Luck Game</title>
   <style>
     body {
-      text-align: center;
-      font-family: sans-serif;
-      background-color: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
     }
-    input, button {
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 300px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type=number] {
+      width: 100%;
       padding: 10px;
-      margin: 10px;
       font-size: 16px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      margin: 10px 0;
+      cursor: pointer;
+      background-color: #f8b500;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #d99900;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #222;
     }
   </style>
 </head>
 <body>
-  <h1>🎲 Your Robux</h1>
-  <input type="number" id="robuxInput" placeholder="Robux..." />
-  <button onclick="playGame()">Try</button>
-  <p id="result"></p>
+  <div class="container">
+    <h1>Robux Luck Game</h1>
+    <input type="number" id="robuxInput" placeholder="Enter starting Robux" />
+    <button onclick="startGame()">Start Game</button>
+    <button onclick="tryLuck()" id="tryButton" disabled>Try Your Luck 🎲</button>
+    <button onclick="cashOut()" id="cashButton" disabled>Cash Out 💰</button>
+    <p id="result"></p>
+  </div>
 
   <script>
-    function playGame() {
+    let currentRobux = 0;
+
+    function startGame() {
       const input = document.getElementById('robuxInput').value;
       const robux = parseInt(input);
       const result = document.getElementById('result');
 
       if (isNaN(robux) || robux <= 0) {
-        result.textContent = "Error.";
+        result.textContent = "Please enter a valid Robux amount.";
         return;
       }
 
+      currentRobux = robux;
+      result.textContent = `You start with ${currentRobux} Robux.`;
+      document.getElementById('tryButton').disabled = false;
+      document.getElementById('cashButton').disabled = false;
+    }
+
+    function tryLuck() {
+      const result = document.getElementById('result');
       const outcome = Math.random() < 0.5;
+
       if (outcome) {
-        result.textContent = `🎉 Duping Robux: ${robux * 2}`;
+        currentRobux *= 2;
+        result.textContent = `🎉 Lucky! You now have ${currentRobux} Robux!`;
       } else {
-        result.textContent = "😱 Oh no.";
+        currentRobux = 0;
+        result.textContent = "😱 Unlucky! You've lost all your Robux.";
+        document.getElementById('tryButton').disabled = true;
+        document.getElementById('cashButton').disabled = true;
       }
+    }
+
+    function cashOut() {
+      const result = document.getElementById('result');
+      result.textContent = `💵 You cashed out with ${currentRobux} Robux. Well played!`;
+      document.getElementById('tryButton').disabled = true;
+      document.getElementById('cashButton').disabled = true;
     }
   </script>
 </body>
